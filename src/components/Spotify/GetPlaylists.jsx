@@ -1,9 +1,7 @@
 import axios from 'axios'
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
 
-export default function GetPlaylists({setData}) {
-    const [token, setToken] = useState('')
-
+export default function GetPlaylists({setData, token, setToken}) {
     useEffect(() => {
         if (localStorage.getItem('accessToken')) setToken(localStorage.getItem('accessToken'))
     }, [])

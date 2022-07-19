@@ -1,19 +1,39 @@
 import './MainApp.css'
-import {useState} from 'react'
+import axios from 'axios'
+import {useState, useEffect} from 'react'
 import GetPlaylists from './Spotify/GetPlaylists'
 import GetUser from './Spotify/GetUser'
 import Playlist from './Spotify/Playlists'
+import Tracks from './Spotify/Tracks'
 
 export default function MainApp () {
+    const [token, setToken] = useState('')
     const [data, setData] = useState({})
     const [selectedPlaylist, setSelectedPlaylist] = useState()
+    const [tracksData, setTracksData] = useState()
+
+    useEffect(() => {
+        const url = selectedPlaylist?.tracks.href
+        axios.get(url, { //endpoint for the current playlist
+            headers: {
+                Authorization: "Bearer " + token,
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            setTracksData(response.data)
+        })
+        .catch(err => console.log(err))
+
+    }, [selectedPlaylist])
 
     return (
         <main>
             {!localStorage.getItem('accessToken') && <GetUser className="button"/>}
-            {!data.items && <GetPlaylists className="button" setData={setData}/>}
+            {localStorage.getItem('accessToken') && !data.items && <GetPlaylists className="button" setData={setData} token={token} setToken={setToken}/>}
             {!selectedPlaylist && <Playlist data={data} setSelectedPlaylist={setSelectedPlaylist}/>}
-            {/* FROM HERE: View playlist you've selected, maybe show its artwork/mosaic, tracklist, etc. - then implement integration to a youtube playlist */}
+            {tracksData && <Tracks tracksData={tracksData}/>}
         </main>
     )
 }
