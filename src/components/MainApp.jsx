@@ -4,7 +4,8 @@ import {useState, useEffect} from 'react'
 import GetPlaylists from './Spotify/GetPlaylists'
 import GetUser from './Spotify/GetUser'
 import Playlist from './Spotify/Playlists'
-import Tracks from './Spotify/Tracks'
+import YoutubeLogin from './YouTube/YoutubeLogin'
+import {gapi} from 'gapi-script'
 
 export default function MainApp () {
     const [token, setToken] = useState('')
@@ -28,12 +29,17 @@ export default function MainApp () {
 
     }, [selectedPlaylist])
 
+    useEffect(() => {
+        const googleAppID = 'AIzaSyA8cC0_E_Bc-vzRprOItLWRjsHXNvKC9KQ'
+        const googleClientID = '1096096401026-dk24mo4rsrlkquvam5opd50e357u09le.apps.googleusercontent.com'
+    }, [tracksData])
+
     return (
         <main>
             {!localStorage.getItem('accessToken') && <GetUser className="button"/>}
             {localStorage.getItem('accessToken') && !data.items && <GetPlaylists className="button" setData={setData} token={token} setToken={setToken}/>}
             {!selectedPlaylist && <Playlist data={data} setSelectedPlaylist={setSelectedPlaylist}/>}
-            {tracksData && <Tracks tracksData={tracksData}/>}
+            {tracksData && <YoutubeLogin tracksData={tracksData}/>}
         </main>
     )
 }

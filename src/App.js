@@ -11,11 +11,10 @@ function App() {
     if (localStorage.getItem('expires') < Date.now()) localStorage.clear()
     if (window.location.hash) {
       setCurrentPage('Main')
-      const {access_token, expires_in, token_type} = checkSpotifyAuth(window.location.hash, setCurrentPage)
+      const {access_token, expires_in} = checkSpotifyAuth(window.location.hash, setCurrentPage)
 
-      const expires = Date.now() + expires_in * 1000
+      const expires = Date.now() + (expires_in * 1000)
       
-      localStorage.clear()
       localStorage.setItem("accessToken", access_token)
       localStorage.setItem("expires", expires)
     }
