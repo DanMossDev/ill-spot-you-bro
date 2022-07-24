@@ -8,7 +8,6 @@ export default function YoutubeLogin({setYoutubeToken}) {
         if (localStorage.getItem('youtubeExpires') && localStorage.getItem('youtubeExpires') < Date.now()) localStorage.clear()
         if (!localStorage.getItem('youtubeAccessToken')) {
             const {access_token, expires_in} = res.tokenObj
-            console.log(res.tokenObj.access_token)
 
             const youtubeExpires = Date.now() + (expires_in * 1000)
             localStorage.setItem("youtubeAccessToken", access_token)
@@ -16,7 +15,6 @@ export default function YoutubeLogin({setYoutubeToken}) {
             setYoutubeToken(access_token)
         }
     }
-
     function onFailure(res) {
         console.log('Login failed', res)
     }
