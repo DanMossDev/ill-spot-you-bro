@@ -1,3 +1,4 @@
+import './CreatePlaylist.css'
 import { useState, useEffect } from "react"
 import axios from "axios"
 
@@ -19,9 +20,9 @@ export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
     // }, [playlistID])
 
     return <form onSubmit={submitHandler}>
-        <label>Playlist Title: </label>
+        <label>Title: </label>
         <input type="text" value={playlistTitle} onChange={e => setPlaylistTitle(e.target.value)}></input>
-        <button type="submit">Transfer Your Playlist</button>
+        <button type="submit">Transfer</button>
     </form>
 }
 

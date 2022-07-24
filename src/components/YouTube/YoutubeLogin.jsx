@@ -1,3 +1,4 @@
+import './YoutubeLogin.css'
 import {GoogleLogin} from 'react-google-login'
 
 export default function YoutubeLogin({setYoutubeToken}) {
@@ -21,8 +22,8 @@ export default function YoutubeLogin({setYoutubeToken}) {
     }
     
 
-    return <div className="sign-in-button">
-        <GoogleLogin
+    return <div>
+        <GoogleLogin className="sign-in-button"
             clientId={googleClientID}
             buttonText="Login to YouTube"
             onSuccess={onSuccess}

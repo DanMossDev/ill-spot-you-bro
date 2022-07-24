@@ -1,0 +1,15 @@
+.sign-in-button span {
+    color: white;
+    font-size: 5vmin;
+}
+
+.sign-in-button div {
+    margin: 0 0.5rem !important;
+}
+
+@media screen and (min-width: 1200px) {
+
+    .sign-in-button span {
+      font-size: 3vmin;
+    }
+  }

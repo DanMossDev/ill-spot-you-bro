@@ -1,0 +1,17 @@
+form {
+    display: flex;
+    align-items:flex-start;
+}
+
+form label {
+    padding-top: 0.25rem;
+}
+
+form input {
+    align-self: stretch;
+    font-size: 1.25rem;
+}
+
+form button {
+    align-self: stretch;
+}

@@ -66,8 +66,6 @@ export default function MainApp () {
             {(tracksData && !localStorage.getItem('youtubeAccessToken')) && <YoutubeLogin tracksData={tracksData} setYoutubeToken={setYoutubeToken}/>}
             {(tracksData && localStorage.getItem('youtubeAccessToken') && isSearching) && <SearchYoutube trackArray={trackArray} setYoutubeTracks={setYoutubeTracks} setYoutubeToken={setYoutubeToken} youtubeToken={youtubeToken}/>}
             {!isSearching && <CreatePlaylist youtubeTracks={youtubeTracks} youtubeToken={youtubeToken}/>}
-            <p>track {JSON.stringify(trackArray[0])}</p>
-            <p>search {JSON.stringify(youtubeTracks)} {isSearching.toString()}</p>
         </main>
     )
 }
