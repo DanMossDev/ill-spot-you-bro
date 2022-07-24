@@ -5,19 +5,24 @@ import axios from "axios"
 export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
     const [playlistTitle, setPlaylistTitle] = useState('')
     const [playlistID, setPlaylistID] = useState('')
-    console.log(youtubeToken, '<<')
+    const [isFirstRender, setIsFirstRender] = useState(true)
 
     function submitHandler(e) {
         e.preventDefault()
-
-        makePlaylist(youtubeToken, playlistTitle)//.then(({data}) => setPlaylistID(data.id))
+        makePlaylist(youtubeToken, playlistTitle).then(({data}) => setPlaylistID(data.id))
     }
 
-    // useEffect(() => {
-    //     youtubeTracks.forEach(track => {
-    //         addToPlaylist(youtubeToken, track, playlistID)
-    //     })
-    // }, [playlistID])
+    useEffect(() => {
+        const lastCall = youtubeTracks.length - 1
+        if (isFirstRender) return setIsFirstRender(false)
+        function callAPI(i) {
+            addToPlaylist(youtubeToken, youtubeTracks[i], playlistID)
+            .then(() => {
+                if (i < lastCall) callAPI(i + 1)
+            })
+        }
+        callAPI(0)
+    }, [playlistID])
 
     return <form onSubmit={submitHandler}>
         <label>Title: </label>
@@ -44,16 +49,17 @@ function makePlaylist(youtubeToken, title) {
 }
 
 function addToPlaylist(youtubeToken, track, playlistID) {
+    console.log(track, playlistID)
     const apiKey = 'AIzaSyBnuuQQVDIN8ItjfSdwABFMHUD1qCuTiDw'
-    return axios.put(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${apiKey}&access_token=${youtubeToken}`, {
+    return axios.post(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${apiKey}&access_token=${youtubeToken}`, {
         "snippet": {
         "playlistId": playlistID,
         "resourceId": {
-          "videoId": track
+            "kind": "youtube#video",
+            "videoId": track
         }
       }
     }, {
-        Authorization: 'Bearer ' + youtubeToken,
         Accept: "application/json",
         "Content-Type": "application/json"
     })

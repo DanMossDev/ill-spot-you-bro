@@ -1,6 +1,9 @@
 form {
     display: flex;
     align-items:flex-start;
+    height: 2rem;
+    max-width: 90%;
+    justify-content: center;
 }
 
 form label {
@@ -10,8 +13,27 @@ form label {
 form input {
     align-self: stretch;
     font-size: 1.25rem;
+    max-width: 50%;
 }
 
 form button {
-    align-self: stretch;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+@media screen and (min-width: 1200px) {
+    form button {
+        height: 2rem;
+        font-size: 1.25rem;
+        align-self: stretch;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    form label {
+        font-size: 1.75rem;
+    }
+    form button {
+        padding: 0 0.75rem;
+    }
 }
