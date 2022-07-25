@@ -23,7 +23,7 @@ export default function SearchYoutube({trackArray, setYoutubeTracks, setYoutubeT
 }
 
 function searchForVideo(youtubeToken, queries) {
-    const apiKey = 'AIzaSyBnuuQQVDIN8ItjfSdwABFMHUD1qCuTiDw'
+    const apiKey = process.env.REACT_APP_API_KEY
     return axios.get(`https://youtube.googleapis.com/youtube/v3/search?maxResults=1&q=${queries}&key=${apiKey}`, {
         headers: {
             Accept: "application/json"

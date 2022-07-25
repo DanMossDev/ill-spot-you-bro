@@ -6,33 +6,52 @@ export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
     const [playlistTitle, setPlaylistTitle] = useState('')
     const [playlistID, setPlaylistID] = useState('')
     const [isFirstRender, setIsFirstRender] = useState(true)
+    const [createNow, setCreateNow] = useState(false)
+    const [creatingPlaylist, setCreatingPlaylist] = useState(false)
 
     function submitHandler(e) {
         e.preventDefault()
-        makePlaylist(youtubeToken, playlistTitle).then(({data}) => setPlaylistID(data.id))
+        makePlaylist(youtubeToken, playlistTitle).then(({data}) => {
+            setPlaylistID(data.id)
+            setCreateNow(true)
+        })
     }
 
     useEffect(() => {
         const lastCall = youtubeTracks.length - 1
         if (isFirstRender) return setIsFirstRender(false)
         function callAPI(i) {
+            setCreatingPlaylist(true)
             addToPlaylist(youtubeToken, youtubeTracks[i], playlistID)
             .then(() => {
                 if (i < lastCall) callAPI(i + 1)
+                else setCreatingPlaylist(false)
             })
         }
         callAPI(0)
-    }, [playlistID])
+    }, [createNow])
 
-    return <form onSubmit={submitHandler}>
-        <label>Title: </label>
-        <input type="text" value={playlistTitle} onChange={e => setPlaylistTitle(e.target.value)}></input>
-        <button type="submit">Transfer</button>
-    </form>
+    return !creatingPlaylist ? <>
+            <form onSubmit={submitHandler}>
+            <label>Title: </label>
+            <input type="text" value={playlistTitle} onChange={e => setPlaylistTitle(e.target.value)}></input>
+            <button type="submit">Transfer</button>
+        </form>
+        </> : <div class="middle">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+            <div class="bar bar4"></div>
+            <div class="bar bar5"></div>
+            <div class="bar bar6"></div>
+            <div class="bar bar7"></div>
+            <div class="bar bar8"></div>
+            <p style={{margin: 0}}>Making Your Playlist</p>
+        </div>
 }
 
 function makePlaylist(youtubeToken, title) {
-    const apiKey = 'AIzaSyBnuuQQVDIN8ItjfSdwABFMHUD1qCuTiDw'
+    const apiKey = process.env.REACT_APP_API_KEY
     const reqBody = {
         "snippet": {
           "title": `${title}`,

@@ -2,7 +2,7 @@ import './YoutubeLogin.css'
 import {GoogleLogin} from 'react-google-login'
 
 export default function YoutubeLogin({setYoutubeToken}) {
-    const googleClientID = '27209248176-058lkubo7b7nqv4qcm9ivj7qkhn3vn0m.apps.googleusercontent.com'
+    const googleClientID = process.env.REACT_APP_CLIENT_ID
 
     function onSuccess(res) {
         if (localStorage.getItem('youtubeExpires') && localStorage.getItem('youtubeExpires') < Date.now()) localStorage.clear()
