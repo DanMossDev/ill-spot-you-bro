@@ -81,8 +81,7 @@ function makePlaylist(youtubeToken, title) {
 }
 
 function addToPlaylist(youtubeToken, track, playlistID) {
-    console.log(track, playlistID)
-    const apiKey = 'AIzaSyBnuuQQVDIN8ItjfSdwABFMHUD1qCuTiDw'
+    const apiKey = process.env.REACT_APP_API_KEY
     return axios.post(`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${apiKey}&access_token=${youtubeToken}`, {
         "snippet": {
         "playlistId": playlistID,
