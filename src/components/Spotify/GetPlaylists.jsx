@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {useEffect} from 'react'
 
+
 export default function GetPlaylists({setData, token, setToken}) {
     useEffect(() => {
         if (localStorage.getItem('accessToken')) setToken(localStorage.getItem('accessToken'))
@@ -12,7 +13,7 @@ export default function GetPlaylists({setData, token, setToken}) {
 }
 
 function getPlaylists(token, setData) {
-    axios.get('https://api.spotify.com/v1/me/playlists', { //endpoint for the current user
+    axios.get(`https://api.spotify.com/v1/me/playlists`, { //endpoint for the current user
         headers: {
             Authorization: "Bearer " + token
         }
