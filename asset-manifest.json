@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ill-spot-you-bro/static/css/main.535e883a.css",
+    "main.js": "/ill-spot-you-bro/static/js/main.b1589fea.js",
+    "static/js/787.1adca19f.chunk.js": "/ill-spot-you-bro/static/js/787.1adca19f.chunk.js",
+    "index.html": "/ill-spot-you-bro/index.html",
+    "main.535e883a.css.map": "/ill-spot-you-bro/static/css/main.535e883a.css.map",
+    "main.b1589fea.js.map": "/ill-spot-you-bro/static/js/main.b1589fea.js.map",
+    "787.1adca19f.chunk.js.map": "/ill-spot-you-bro/static/js/787.1adca19f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.535e883a.css",
+    "static/js/main.b1589fea.js"
+  ]
+}
