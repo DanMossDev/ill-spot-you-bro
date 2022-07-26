@@ -65,7 +65,7 @@ li button {
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 600px) {
   body {
     font-size: 3vmin;
   }

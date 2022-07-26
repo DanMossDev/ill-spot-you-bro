@@ -19,8 +19,10 @@ export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
 
     useEffect(() => {
         const lastCall = youtubeTracks.length - 1
+        console.log('getting in here')
         if (isFirstRender) return setIsFirstRender(false)
         function callAPI(i) {
+            console.log('this is inside the actual call')
             setCreatingPlaylist(true)
             addToPlaylist(youtubeToken, youtubeTracks[i], playlistID)
             .then(() => {
@@ -31,23 +33,34 @@ export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
         callAPI(0)
     }, [createNow])
 
-    return !creatingPlaylist ? <>
+    return !creatingPlaylist ? 
+        !createNow ?
+        <>
             <form onSubmit={submitHandler}>
             <label>Title: </label>
             <input type="text" value={playlistTitle} onChange={e => setPlaylistTitle(e.target.value)}></input>
             <button type="submit">Transfer</button>
         </form>
-        </> : <div class="middle">
-            <div class="bar bar1"></div>
-            <div class="bar bar2"></div>
-            <div class="bar bar3"></div>
-            <div class="bar bar4"></div>
-            <div class="bar bar5"></div>
-            <div class="bar bar6"></div>
-            <div class="bar bar7"></div>
-            <div class="bar bar8"></div>
-            <p style={{margin: 0}}>Making Your Playlist</p>
-        </div>
+        </>
+        :
+        <>
+            <button type="button" onClick={(e) => {
+                e.preventDefault();
+                window.open(`https://www.youtube.com/playlist?list=${playlistID}`, '_blank')
+            }}> View Playlist</button>
+        </>
+        
+    : <div class="middle">
+        <div class="bar bar1"></div>
+        <div class="bar bar2"></div>
+        <div class="bar bar3"></div>
+        <div class="bar bar4"></div>
+        <div class="bar bar5"></div>
+        <div class="bar bar6"></div>
+        <div class="bar bar7"></div>
+        <div class="bar bar8"></div>
+        <p style={{margin: 0}}>Making Your Playlist</p>
+    </div>
 }
 
 function makePlaylist(youtubeToken, title) {
