@@ -27,7 +27,7 @@ export default function YoutubeLogin({setYoutubeToken}) {
             onSuccess={onSuccess}
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
-            scope={'https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtube'}
+            scope={'https://www.googleapis.com/auth/youtube'}
         />
     </div>
 }
