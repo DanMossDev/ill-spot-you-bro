@@ -12,6 +12,7 @@ import CreatePlaylist from './YouTube/CreatePlaylist'
 export default function MainApp () {
     const [token, setToken] = useState('')
     const [youtubeToken, setYoutubeToken] = useState('')
+    const [error, setError] = useState()
     const [data, setData] = useState({})
     const [selectedPlaylist, setSelectedPlaylist] = useState()
     const [tracksData, setTracksData] = useState()
@@ -20,7 +21,8 @@ export default function MainApp () {
     const [isSearching, setIsSearching] = useState(true)
     
     useEffect(() => {
-        const url = selectedPlaylist?.tracks.href
+        if (selectedPlaylist) {
+        const url = selectedPlaylist.tracks.href
         axios.get(url, { //endpoint for the current playlist
             headers: {
                 Authorization: "Bearer " + token,
@@ -31,7 +33,8 @@ export default function MainApp () {
         .then(response => {
             setTracksData(response.data)
         })
-        .catch(err => console.log(err))
+        .catch(err => setError(err))
+        }
 
     }, [selectedPlaylist])
 
@@ -58,15 +61,17 @@ export default function MainApp () {
         if (trackArray.length !== 0 && trackArray.length === youtubeTracks.length) setIsSearching(false)
     }, [youtubeTracks, trackArray])
 
-    return (
-        <main>
+    return error ? <main>
+        <h2>Sorry, something went wrong.</h2>
+        <p>To start again, <a onClick={localStorage.clear()} href="https://danmossdev.github.io/ill-spot-you-bro/">click here</a></p>
+    </main> 
+    : <main>
             {!localStorage.getItem('accessToken') && <GetUser className="button"/>}
-            {localStorage.getItem('accessToken') && !data.items && <GetPlaylists className="button" setData={setData} token={token} setToken={setToken}/>}
+            {localStorage.getItem('accessToken') && !data.items && <GetPlaylists className="button" setData={setData} token={token} setToken={setToken} setError={setError}/>}
             {!selectedPlaylist && <Playlist data={data} setSelectedPlaylist={setSelectedPlaylist}/>}
-            {(tracksData && !localStorage.getItem('youtubeAccessToken')) && <YoutubeLogin tracksData={tracksData} setYoutubeToken={setYoutubeToken}/>}
-            {(tracksData && localStorage.getItem('youtubeAccessToken') && isSearching) && <SearchYoutube trackArray={trackArray} setYoutubeTracks={setYoutubeTracks} setYoutubeToken={setYoutubeToken} youtubeToken={youtubeToken}/>}
-            {!isSearching && <CreatePlaylist youtubeTracks={youtubeTracks} youtubeToken={youtubeToken}/>}
+            {(tracksData && !localStorage.getItem('youtubeAccessToken')) && <YoutubeLogin tracksData={tracksData} setYoutubeToken={setYoutubeToken} setError={setError}/>}
+            {(tracksData && localStorage.getItem('youtubeAccessToken') && isSearching) && <SearchYoutube trackArray={trackArray} setYoutubeTracks={setYoutubeTracks} setYoutubeToken={setYoutubeToken} youtubeToken={youtubeToken} setError={setError}/>}
+            {!isSearching && <CreatePlaylist youtubeTracks={youtubeTracks} youtubeToken={youtubeToken} setError={setError}/>}
         </main>
-    )
 }
 

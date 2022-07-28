@@ -1,7 +1,7 @@
 import './YoutubeLogin.css'
 import {GoogleLogin} from 'react-google-login'
 
-export default function YoutubeLogin({setYoutubeToken}) {
+export default function YoutubeLogin({setYoutubeToken, setError}) {
     const googleClientID = process.env.REACT_APP_CLIENT_ID
 
     function onSuccess(res) {
@@ -16,7 +16,7 @@ export default function YoutubeLogin({setYoutubeToken}) {
         }
     }
     function onFailure(res) {
-        console.log('Login failed', res)
+        setError(res)
     }
     
 

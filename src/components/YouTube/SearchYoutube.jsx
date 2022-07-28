@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import axios from "axios"
 
-export default function SearchYoutube({trackArray, setYoutubeTracks, setYoutubeToken, youtubeToken}) {
+export default function SearchYoutube({trackArray, setYoutubeTracks, setYoutubeToken, youtubeToken, setError}) {
     useEffect(() => {
         if (!youtubeToken) setYoutubeToken(localStorage.getItem('youtubeAccessToken'))
     })
@@ -15,7 +15,7 @@ export default function SearchYoutube({trackArray, setYoutubeTracks, setYoutubeT
                 tracksCopy.push(data.items[0].id.videoId)
                 return tracksCopy
             }))
-            .catch(err => console.log(err))
+            .catch(err => setError(err))
         })
     }, [trackArray])
 

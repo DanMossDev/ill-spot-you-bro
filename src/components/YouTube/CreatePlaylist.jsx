@@ -2,7 +2,7 @@ import './CreatePlaylist.css'
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
+export default function CreatePlaylist({youtubeTracks, youtubeToken, setError}) {
     const [playlistTitle, setPlaylistTitle] = useState('')
     const [playlistID, setPlaylistID] = useState('')
     const [isFirstRender, setIsFirstRender] = useState(true)
@@ -15,20 +15,20 @@ export default function CreatePlaylist({youtubeTracks, youtubeToken}) {
             setPlaylistID(data.id)
             setCreateNow(true)
         })
+        .catch(err => setError(err))
     }
 
     useEffect(() => {
         const lastCall = youtubeTracks.length - 1
-        console.log('getting in here')
         if (isFirstRender) return setIsFirstRender(false)
         function callAPI(i) {
-            console.log('this is inside the actual call')
             setCreatingPlaylist(true)
             addToPlaylist(youtubeToken, youtubeTracks[i], playlistID)
             .then(() => {
                 if (i < lastCall) callAPI(i + 1)
                 else setCreatingPlaylist(false)
             })
+            .catch(err => setError(err))
         }
         callAPI(0)
     }, [createNow])
